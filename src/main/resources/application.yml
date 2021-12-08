@@ -1,0 +1,48 @@
+app:
+    eureka:
+        host: localhost
+        password: 12345678
+        port: 8761
+        registerEndpoint: /eureka
+        username: content-mng
+    security:
+        unsecured-paths: get,/coinInfo/{\\d*},get,/faqs/{\\d*},get,/comments/{\\d*}
+eureka:
+    client:
+        enabled: false
+        fetch-registry: false
+        register-with-eureka: true
+        service-url:
+            defaultZone: http://${app.eureka.username}:${app.eureka.password}@${app.eureka.host}:${app.eureka.port}/${app.eureka.registerEndpoint}
+    instance:
+        prefer-ip-address: true
+logging:
+    level:
+        root: error
+spring:
+    application:
+        name: ContentMng
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        password: +&mMXHg5CRJj5#+n
+        url: jdbc:postgresql://45.147.77.8:5432/ce?ApplicationName=${spring.application.name}
+        username: content-mng
+    jpa:
+        properties:
+            org:
+                hibernate:
+                    envers:
+                        default_schema: AUD
+        show-sql: false
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    jwk-set-uri: http://45.147.77.8/auth/.well-known/jwks.json
+    web:
+        resources:
+            chain:
+                cache: true
+    servlet:
+        multipart:
+            max-file-size: 512KB
